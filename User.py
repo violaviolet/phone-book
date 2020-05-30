@@ -7,5 +7,5 @@ class User:
         self.creation_date = creation_date
 
     def to_string(self):
-        record = self.name + ' ' + str(self.phone_number) + str(self.creation_date)
+        record = self.name + ' ' + str(self.phone_number) + ' ' + str(self.creation_date)
         return record

@@ -1,28 +1,39 @@
 from User import User
-from datetime import date
-import sys
+import datetime
+
+
+
+def add_to_file(filepath, users):
+    """Add new user to file.txt"""
+    f = open(filepath, "a")
+    for user in users:
+        g = user.to_string()
+    f.writelines(str(g)+"\n")
 
 
 def add_new_user(users):
-    #argument inout
     name = input("Enter user name: ")
     phone_number = input("Enter user phone number: ")
-    creation_date = date.today()
+    creation_date = datetime.datetime.now()
     new_user = User(name, phone_number, creation_date)
     print(new_user.to_string())
     users.append(new_user)
 
-def show_all_users(users):
-    for user in users:
-        print(user.to_string())
+
+def show_all_users(filepath):
+    with open(filepath) as file:
+        for line in file:
+            print(line)
+    file.close()
 
 
-def show_user():
-    return
+def show_user(filepath):
+    choice = input("Enter single user name.")
+    with open(filepath) as file:
+        for line in file:
+            if line.startswith(choice):
+                print(line)
 
-
-#def add_user_group():
-#    return
 
 
 def show_menu():
@@ -34,23 +45,23 @@ def show_menu():
                         4. Close program. \n""")
 
 
-
 def main_program_loop():
     users = []
+    filepath = 'base.txt'
     while True:
         show_menu()
         option = int(input("Enter your choice:"))
         if option == 1:
             add_new_user(users)
+            add_to_file(filepath, users)
         elif option == 2:
-            show_all_users(users)
+            show_all_users(filepath)
         elif option == 3:
-            show_user()
+            show_user(filepath)
         elif option == 4:
             break
         else:
             print("Option was not recognized. Try again!")
-
 
 
 main_program_loop()
