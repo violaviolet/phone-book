@@ -15,12 +15,10 @@ def load_data_from_file(users, filepath):
         users.append(new_user)
 
 
-def add_to_file(filepath, users):
+def add_to_file(filepath, user):
     """Add new user to file.txt"""
     file = open(filepath, "a")
-    for user in users:
-        g = user.to_string()
-    file.writelines(str(g)+"\n")
+    file.writelines(user.to_string() + "\n")
     file.close()
 
 
@@ -31,7 +29,7 @@ def add_new_user(filepath, users):
     creation_date = datetime.now()
     new_user = User(name, surname, phone_number, creation_date)
     users.append(new_user)
-    add_to_file(filepath, users)
+    add_to_file(filepath, new_user)
 
 
 def show_all_users(users):
