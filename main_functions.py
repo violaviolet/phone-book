@@ -2,7 +2,6 @@ from User import User
 import datetime
 
 
-
 def add_to_file(filepath, users):
     """Add new user to file.txt"""
     f = open(filepath, "a")
@@ -14,8 +13,9 @@ def add_to_file(filepath, users):
 def add_new_user(users):
     name = input("Enter user name: ")
     phone_number = input("Enter user phone number: ")
+    surname = input("Enter a surname: ")
     creation_date = datetime.datetime.now()
-    new_user = User(name, phone_number, creation_date)
+    new_user = User(name, surname, phone_number, creation_date)
     print(new_user.to_string())
     users.append(new_user)
 
@@ -33,7 +33,6 @@ def show_user(filepath):
         for line in file:
             if line.startswith(choice):
                 print(line)
-
 
 
 def show_menu():
