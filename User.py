@@ -1,3 +1,5 @@
+from datetime import datetime
+
 class User:
 
     def __init__(self, name, surname, phone_number, creation_date):
@@ -8,5 +10,5 @@ class User:
         self.creation_date = creation_date
 
     def to_string(self):
-        record = self.name + ' ' + str(self.surname) + ' ' + str(self.phone_number) + ' ' + str(self.creation_date)
+        record = self.name + ' ' + self.surname + ' ' + str(self.phone_number) + ' ' + datetime.strftime(self.creation_date, '%Y-%m-%d %H:%M:%S')
         return record
