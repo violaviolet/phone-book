@@ -1,5 +1,18 @@
 from User import User
-import datetime
+from datetime import datetime
+
+
+
+def load_data_from_file(users, filepath):
+    file = open(filepath, "r")
+    for line in file:
+        user_as_list_of_strings = line.split(" ")
+        name = user_as_list_of_strings[0]
+        surname = user_as_list_of_strings[1]
+        phone_number = int(user_as_list_of_strings[2])
+        date_time = datetime.strptime(user_as_list_of_strings[3] + " " + user_as_list_of_strings[4].rstrip(), '%Y-%m-%d %H:%M:%S')
+        new_user = User(name, surname, phone_number, date_time)
+        users.append(new_user)
 
 
 def add_to_file(filepath, users):
@@ -12,9 +25,9 @@ def add_to_file(filepath, users):
 
 def add_new_user(users):
     name = input("Enter user name: ")
-    phone_number = input("Enter user phone number: ")
     surname = input("Enter a surname: ")
-    creation_date = datetime.datetime.now()
+    phone_number = input("Enter user phone number: ")
+    creation_date = datetime.now()
     new_user = User(name, surname, phone_number, creation_date)
     print(new_user.to_string())
     users.append(new_user)
@@ -47,6 +60,7 @@ def show_menu():
 def main_program_loop():
     users = []
     filepath = 'base.txt'
+    load_data_from_file(users, filepath)
     while True:
         show_menu()
         option = int(input("Enter your choice:"))
