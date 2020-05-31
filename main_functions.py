@@ -33,11 +33,9 @@ def add_new_user(users):
     users.append(new_user)
 
 
-def show_all_users(filepath):
-    with open(filepath) as file:
-        for line in file:
-            print(line)
-    file.close()
+def show_all_users(users):
+    for user in users:
+        print(user.to_string())
 
 
 def show_user(filepath):
@@ -68,7 +66,7 @@ def main_program_loop():
             add_new_user(users)
             add_to_file(filepath, users)
         elif option == 2:
-            show_all_users(filepath)
+            show_all_users(users)
         elif option == 3:
             show_user(filepath)
         elif option == 4:
