@@ -17,20 +17,21 @@ def load_data_from_file(users, filepath):
 
 def add_to_file(filepath, users):
     """Add new user to file.txt"""
-    f = open(filepath, "a")
+    file = open(filepath, "a")
     for user in users:
         g = user.to_string()
-    f.writelines(str(g)+"\n")
+    file.writelines(str(g)+"\n")
+    file.close()
 
 
-def add_new_user(users):
+def add_new_user(filepath, users):
     name = input("Enter user name: ")
     surname = input("Enter a surname: ")
     phone_number = input("Enter user phone number: ")
     creation_date = datetime.now()
     new_user = User(name, surname, phone_number, creation_date)
-    print(new_user.to_string())
     users.append(new_user)
+    add_to_file(filepath, users)
 
 
 def show_all_users(users):
@@ -38,12 +39,10 @@ def show_all_users(users):
         print(user.to_string())
 
 
-def show_user(filepath):
-    choice = input("Enter single user name.")
-    with open(filepath) as file:
-        for line in file:
-            if line.startswith(choice):
-                print(line)
+def show_user(users):
+    searching_filter = input("Enter searching filter:")
+    for user in users:
+        print(user)
 
 
 def show_menu():
@@ -63,8 +62,7 @@ def main_program_loop():
         show_menu()
         option = int(input("Enter your choice:"))
         if option == 1:
-            add_new_user(users)
-            add_to_file(filepath, users)
+            add_new_user(filepath, users)
         elif option == 2:
             show_all_users(users)
         elif option == 3:
