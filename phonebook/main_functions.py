@@ -1,4 +1,5 @@
 from User import User
+import data
 from datetime import datetime
 
 
@@ -84,7 +85,7 @@ def show_filtering_options_menu():
 
 def main_program_loop():
     users = []
-    filepath = 'base.txt'
+    filepath = r"C:\Users\wswist\PycharmProjects\Project_Python2020\Projekt_Phone_book\phone-book\data\base.txt"
     load_data_from_file(users, filepath)
     while True:
         show_menu()
