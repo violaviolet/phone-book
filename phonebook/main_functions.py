@@ -23,14 +23,29 @@ def add_to_file(filepath, user):
     file.close()
 
 
-def add_new_user(filepath, users):
+def get_data_from_user():
     name = input("Enter user name: ")
     surname = input("Enter a surname: ")
     phone_number = input("Enter user phone number: ")
+    user = {
+        "name": name,
+        "surname": surname,
+        "phone_number": phone_number,
+    }
+    return user
+
+
+get_data_from_user()
+
+
+#2konwertuje elementy i dodaje do wenątrzprogramowej listy, -< tworzenie egzemplarza funkcji
+def add_new_user(user_as_dictionary, filepath, users):
     creation_date = datetime.now()
-    new_user = User(name, surname, phone_number, creation_date)
+    new_user = User(user_as_dictionary["name"], user_as_dictionary["surname"], user_as_dictionary["phone_number"], creation_date)
     users.append(new_user)
     add_to_file(filepath, new_user)
+  
+# baza danych już z listy
 
 
 def show_all_users(users):
@@ -108,5 +123,4 @@ def main_program_loop():
         else:
             print("Option was not recognized. Try again!")
 
-
-main_program_loop()
+# main_program_loop()
