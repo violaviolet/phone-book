@@ -42,7 +42,7 @@ def add_to_file(filepath, user):
     file.close()
 
 
-def show_all_users(users):
+def show_users(users):
     for user in users:
         print(user.to_string())
 
@@ -56,14 +56,18 @@ def get_searching_surname():
     surname = input("Enter user surname:")
     return surname
 
+
+def show_searching_result(searching_result):
+    for user in searching_result:
+        print(user.to_string())
+
+
 def search_user_by_name(name, users):
-    at_least_one_result_found = False
+    searched_users = []
     for user in users:
         if user.name == name:
-            print(user.to_string())
-            at_least_one_result_found = True
-    if not at_least_one_result_found:
-        print("User does not exist")
+            searched_users.append(user)
+    return searched_users
 
 
 def search_user_by_surname(surname, users):
@@ -104,14 +108,15 @@ def main_program_loop():
             user = add_new_user(users, user_data, filepath)
             add_to_file(filepath, user)
         elif option == 2:
-            show_all_users(users)
+            show_users(users)
         elif option == 3:
             show_filtering_options_menu()
-            option1 = int(input("Enter your choice:"))
-            if option1 == 1:
+            menu_choice = int(input("Enter your choice:"))
+            if menu_choice == 1:
                 name = get_searching_name()
-                search_user_by_name(name,users)
-            elif option1 == 2:
+                searching_results = search_user_by_name(name, users)
+                show_searching_result(searching_results)
+            elif menu_choice == 2:
                 surname = get_searching_surname()
                 search_user_by_surname(surname, users)
             else:
