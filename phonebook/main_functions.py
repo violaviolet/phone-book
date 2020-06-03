@@ -57,11 +57,6 @@ def get_searching_surname():
     return surname
 
 
-def show_searching_result(searching_result):
-    for user in searching_result:
-        print(user.to_string())
-
-
 def search_user_by_name(name, users):
     searched_users = []
     for user in users:
@@ -71,13 +66,11 @@ def search_user_by_name(name, users):
 
 
 def search_user_by_surname(surname, users):
-    at_least_one_result_found = False
+    searched_users = []
     for user in users:
         if user.surname == surname:
-            print(user.to_string())
-            at_least_one_result_found = True
-    if not at_least_one_result_found:
-        print("User does not exist")
+            searched_users.append(user)
+    return searched_users
 
 
 def show_menu():
@@ -115,10 +108,11 @@ def main_program_loop():
             if menu_choice == 1:
                 name = get_searching_name()
                 searching_results = search_user_by_name(name, users)
-                show_searching_result(searching_results)
+                show_users(searching_results)
             elif menu_choice == 2:
                 surname = get_searching_surname()
-                search_user_by_surname(surname, users)
+                searching_results = search_user_by_surname(surname, users)
+                show_users(searching_results)
             else:
                 return
         elif option == 4:
