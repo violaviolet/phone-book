@@ -57,22 +57,6 @@ def get_searching_surname():
     return surname
 
 
-def search_user_by_name(name, users):
-    searched_users = []
-    for user in users:
-        if user.name == name:
-            searched_users.append(user)
-    return searched_users
-
-
-def search_user_by_surname(surname, users):
-    searched_users = []
-    for user in users:
-        if user.surname == surname:
-            searched_users.append(user)
-    return searched_users
-
-
 def search_user(user_data, users, type_of_searching):
     searched_users = []
     if type_of_searching == 1:
@@ -87,9 +71,6 @@ def search_user(user_data, users, type_of_searching):
         return searched_users
     else:
         return searched_users
-
-
-
 
 
 def show_menu():
