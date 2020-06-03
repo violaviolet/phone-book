@@ -1,6 +1,13 @@
 from User import User
 import data
 from datetime import datetime
+from enum import Enum
+
+
+class Search(Enum):
+    NAME = 1
+    SURNAME = 2
+    PHONE_NUMBER = 3
 
 
 def load_data_from_file(users, filepath):
@@ -57,14 +64,14 @@ def get_searching_surname():
     return surname
 
 
-def search_user(user_data, users, type_of_searching):
+def search_user(user_data, users, field):
     searched_users = []
-    if type_of_searching == 1:
+    if field == Search.NAME:
         for user in users:
             if user.name == user_data:
                 searched_users.append(user)
         return searched_users
-    elif type_of_searching == 2:
+    elif field == Search.SURNAME:
         for user in users:
             if user.surname == user_data:
                 searched_users.append(user)
@@ -107,11 +114,11 @@ def main_program_loop():
             menu_choice = int(input("Enter your choice:"))
             if menu_choice == 1:
                 user_data = get_searching_name()
-                searching_results = search_user(user_data, users, 1)
+                searching_results = search_user(user_data, users, Search.NAME)
                 show_users(searching_results)
             elif menu_choice == 2:
                 user_data = get_searching_surname()
-                searching_results = search_user(user_data, users, 2)
+                searching_results = search_user(user_data, users, Search.SURNAME)
                 show_users(searching_results)
             else:
                 return
