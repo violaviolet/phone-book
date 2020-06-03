@@ -47,8 +47,16 @@ def show_all_users(users):
         print(user.to_string())
 
 
-def search_user_by_name(users):
+def get_searching_name():
     name = input("Enter user name:")
+    return name
+
+
+def get_searching_surname():
+    surname = input("Enter user surname:")
+    return surname
+
+def search_user_by_name(name, users):
     at_least_one_result_found = False
     for user in users:
         if user.name == name:
@@ -58,8 +66,7 @@ def search_user_by_name(users):
         print("User does not exist")
 
 
-def search_user_by_surname(users):
-    surname = input("Enter user surname:")
+def search_user_by_surname(surname, users):
     at_least_one_result_found = False
     for user in users:
         if user.surname == surname:
@@ -102,9 +109,11 @@ def main_program_loop():
             show_filtering_options_menu()
             option1 = int(input("Enter your choice:"))
             if option1 == 1:
-                search_user_by_name(users)
+                name = get_searching_name()
+                search_user_by_name(name,users)
             elif option1 == 2:
-                search_user_by_surname(users)
+                surname = get_searching_surname()
+                search_user_by_surname(surname, users)
             else:
                 return
         elif option == 4:
