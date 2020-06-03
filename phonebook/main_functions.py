@@ -73,6 +73,25 @@ def search_user_by_surname(surname, users):
     return searched_users
 
 
+def search_user(user_data, users, type_of_searching):
+    searched_users = []
+    if type_of_searching == 1:
+        for user in users:
+            if user.name == user_data:
+                searched_users.append(user)
+        return searched_users
+    elif type_of_searching == 2:
+        for user in users:
+            if user.surname == user_data:
+                searched_users.append(user)
+        return searched_users
+    else:
+        return searched_users
+
+
+
+
+
 def show_menu():
     print("----------------------MENU-----------------------------")
     print("""Choose what you'd like to do :
@@ -106,12 +125,12 @@ def main_program_loop():
             show_filtering_options_menu()
             menu_choice = int(input("Enter your choice:"))
             if menu_choice == 1:
-                name = get_searching_name()
-                searching_results = search_user_by_name(name, users)
+                user_data = get_searching_name()
+                searching_results = search_user(user_data, users, 1)
                 show_users(searching_results)
             elif menu_choice == 2:
-                surname = get_searching_surname()
-                searching_results = search_user_by_surname(surname, users)
+                user_data = get_searching_surname()
+                searching_results = search_user(user_data, users, 2)
                 show_users(searching_results)
             else:
                 return
