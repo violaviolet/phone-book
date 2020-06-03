@@ -16,13 +16,6 @@ def load_data_from_file(users, filepath):
         users.append(new_user)
 
 
-def add_to_file(filepath, user):
-    """Add new user to file.txt"""
-    file = open(filepath, "a")
-    file.writelines(user.to_string() + "\n")
-    file.close()
-
-
 def get_data_from_user():
     name = input("Enter user name: ")
     surname = input("Enter a surname: ")
@@ -35,29 +28,23 @@ def get_data_from_user():
     return user
 
 
-get_data_from_user()
-
-
-#2konwertuje elementy i dodaje do wenątrzprogramowej listy, -< tworzenie egzemplarza funkcji
-def add_new_user(user_as_dictionary, filepath, users):
+def add_new_user(users, user_as_dictionary, filepath):
     creation_date = datetime.now()
     new_user = User(user_as_dictionary["name"], user_as_dictionary["surname"], user_as_dictionary["phone_number"], creation_date)
     users.append(new_user)
-    add_to_file(filepath, new_user)
-  
-# baza danych już z listy
+    return new_user
+
+
+def add_to_file(filepath, user):
+    """Add new user to file.txt"""
+    file = open(filepath, "a")
+    file.writelines(user.to_string() + "\n")
+    file.close()
 
 
 def show_all_users(users):
     for user in users:
         print(user.to_string())
-
-
-"""def show_user(users):
-    searching_filter = input("Enter searching filter:")
-    for user in users:
-        print(user)
-"""
 
 
 def search_user_by_name(users):
@@ -106,7 +93,9 @@ def main_program_loop():
         show_menu()
         option = int(input("Enter your choice:"))
         if option == 1:
-            add_new_user(filepath, users)
+            user_data = get_data_from_user()
+            user = add_new_user(users, user_data, filepath)
+            add_to_file(filepath, user)
         elif option == 2:
             show_all_users(users)
         elif option == 3:
@@ -123,4 +112,5 @@ def main_program_loop():
         else:
             print("Option was not recognized. Try again!")
 
-# main_program_loop()
+
+main_program_loop()
