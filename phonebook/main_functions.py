@@ -1,6 +1,12 @@
 from User import User
-import data
 from datetime import datetime
+from enum import Enum
+
+
+class Search(Enum):
+    NAME = 1
+    SURNAME = 2
+    PHONE_NUMBER = 3
 
 
 def load_data_from_file(users, filepath):
@@ -16,6 +22,25 @@ def load_data_from_file(users, filepath):
         users.append(new_user)
 
 
+def get_data_to_create_new_user():
+    name = input("Enter user name: ")
+    surname = input("Enter a surname: ")
+    phone_number = input("Enter user phone number: ")
+    user = {
+        "name": name,
+        "surname": surname,
+        "phone_number": phone_number,
+    }
+    return user
+
+
+def add_new_user(users, user_as_dictionary):
+    creation_date = datetime.now()
+    new_user = User(user_as_dictionary["name"], user_as_dictionary["surname"], user_as_dictionary["phone_number"], creation_date)
+    users.append(new_user)
+    return new_user
+
+
 def add_to_file(filepath, user):
     """Add new user to file.txt"""
     file = open(filepath, "a")
@@ -23,48 +48,33 @@ def add_to_file(filepath, user):
     file.close()
 
 
-def add_new_user(filepath, users):
-    name = input("Enter user name: ")
-    surname = input("Enter a surname: ")
-    phone_number = input("Enter user phone number: ")
-    creation_date = datetime.now()
-    new_user = User(name, surname, phone_number, creation_date)
-    users.append(new_user)
-    add_to_file(filepath, new_user)
-
-
-def show_all_users(users):
+def show_users(users):
     for user in users:
         print(user.to_string())
 
 
-"""def show_user(users):
-    searching_filter = input("Enter searching filter:")
-    for user in users:
-        print(user)
-"""
-
-
-def search_user_by_name(users):
+def get_data_to_search_by_name():
     name = input("Enter user name:")
-    at_least_one_result_found = False
-    for user in users:
-        if user.name == name:
-            print(user.to_string())
-            at_least_one_result_found = True
-    if not at_least_one_result_found:
-        print("User does not exist")
+    return name
 
 
-def search_user_by_surname(users):
+def get_data_to_search_by_surname():
     surname = input("Enter user surname:")
-    at_least_one_result_found = False
+    return surname
+
+
+def search_user(user_data, users, field):
+    searched_users = []
     for user in users:
-        if user.surname == surname:
-            print(user.to_string())
-            at_least_one_result_found = True
-    if not at_least_one_result_found:
-        print("User does not exist")
+        if field == Search.NAME:
+            if user.name == user_data:
+                searched_users.append(user)
+        elif field == Search.SURNAME:
+            if user.surname == user_data:
+                searched_users.append(user)
+        else:
+            return searched_users
+    return searched_users
 
 
 def show_menu():
@@ -91,16 +101,22 @@ def main_program_loop():
         show_menu()
         option = int(input("Enter your choice:"))
         if option == 1:
-            add_new_user(filepath, users)
+            user_data = get_data_to_create_new_user()
+            user = add_new_user(users, user_data)
+            add_to_file(filepath, user)
         elif option == 2:
-            show_all_users(users)
+            show_users(users)
         elif option == 3:
             show_filtering_options_menu()
-            option1 = int(input("Enter your choice:"))
-            if option1 == 1:
-                search_user_by_name(users)
-            elif option1 == 2:
-                search_user_by_surname(users)
+            menu_choice = int(input("Enter your choice:"))
+            if menu_choice == 1:
+                user_data = get_data_to_search_by_name()
+                searching_results = search_user(user_data, users, Search.NAME)
+                show_users(searching_results)
+            elif menu_choice == 2:
+                user_data = get_data_to_search_by_surname()
+                searching_results = search_user(user_data, users, Search.SURNAME)
+                show_users(searching_results)
             else:
                 return
         elif option == 4:
