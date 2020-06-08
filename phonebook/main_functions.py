@@ -1,4 +1,5 @@
 from User import User
+from phonebook.UI.TerminalUserInterface import TerminalUserInterface
 from datetime import datetime
 from enum import Enum
 
@@ -22,18 +23,6 @@ def load_data_from_file(users, filepath):
         users.append(new_user)
 
 
-def get_data_to_create_new_user():
-    name = input("Enter user name: ")
-    surname = input("Enter a surname: ")
-    phone_number = input("Enter user phone number: ")
-    user = {
-        "name": name,
-        "surname": surname,
-        "phone_number": phone_number,
-    }
-    return user
-
-
 def add_new_user(users, user_as_dictionary):
     creation_date = datetime.now()
     new_user = User(user_as_dictionary["name"], user_as_dictionary["surname"], user_as_dictionary["phone_number"], creation_date)
@@ -46,21 +35,6 @@ def add_to_file(filepath, user):
     file = open(filepath, "a")
     file.writelines(user.to_string() + "\n")
     file.close()
-
-
-def show_users(users):
-    for user in users:
-        print(user.to_string())
-
-
-def get_data_to_search_by_name():
-    name = input("Enter user name:")
-    return name
-
-
-def get_data_to_search_by_surname():
-    surname = input("Enter user surname:")
-    return surname
 
 
 def search_user(user_data, users, field):
@@ -77,46 +51,29 @@ def search_user(user_data, users, field):
     return searched_users
 
 
-def show_menu():
-    print("----------------------MENU-----------------------------")
-    print("""Choose what you'd like to do :
-                        1. Add new user.
-                        2. Display all users.
-                        3. Display one user.
-                        4. Close program. \n""")
-
-
-def show_filtering_options_menu():
-    print("-----------------Looking--For--A-User------------")
-    print("""Choose what you'd like to do:
-                  1. Search a user by a name.
-                  2. Search a user by a surname. """)
-
-
 def main_program_loop():
     users = []
-    filepath = r"C:\Users\wswist\PycharmProjects\Project_Python2020\Projekt_Phone_book\phone-book\data\base.txt"
+    filepath = r"..\data\base.txt"
     load_data_from_file(users, filepath)
+    tui = TerminalUserInterface()
     while True:
-        show_menu()
-        option = int(input("Enter your choice:"))
+        option = tui.get_action()
         if option == 1:
-            user_data = get_data_to_create_new_user()
+            user_data = tui.get_new_user_data()
             user = add_new_user(users, user_data)
             add_to_file(filepath, user)
         elif option == 2:
-            show_users(users)
+            tui.show_users(users)
         elif option == 3:
-            show_filtering_options_menu()
-            menu_choice = int(input("Enter your choice:"))
+            menu_choice = tui.get_search_action()
             if menu_choice == 1:
-                user_data = get_data_to_search_by_name()
+                user_data = tui.get_search_by_name_data()
                 searching_results = search_user(user_data, users, Search.NAME)
-                show_users(searching_results)
+                tui.show_users(searching_results)
             elif menu_choice == 2:
-                user_data = get_data_to_search_by_surname()
+                user_data = tui.get_search_by_surname()
                 searching_results = search_user(user_data, users, Search.SURNAME)
-                show_users(searching_results)
+                tui.show_users(searching_results)
             else:
                 return
         elif option == 4:
